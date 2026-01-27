@@ -2,12 +2,28 @@ import os
 import json
 import google.generativeai as genai
 from dotenv import load_dotenv
+try:
+    import streamlit as st
+except ImportError:
+    st = None
 
 # Load environment variables
 load_dotenv()
 
 # Configure the Gemini API
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+api_key = os.getenv("GOOGLE_API_KEY")
+
+# Check Streamlit secrets if env var is missing
+if not api_key and st is not None:
+    try:
+        api_key = st.secrets["GOOGLE_API_KEY"]
+    except:
+        pass
+
+if not api_key:
+    print("Warning: GOOGLE_API_KEY not found in environment or secrets.")
+
+genai.configure(api_key=api_key)
 
 def get_model():
     """Returns the configured Gemini model."""
@@ -20,7 +36,7 @@ def get_model():
     }
     
     model = genai.GenerativeModel(
-        model_name="gemini-2.0-flash",
+        model_name="gemini-1.5-flash",
         generation_config=generation_config,
     )
     return model
