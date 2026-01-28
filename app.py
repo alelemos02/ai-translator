@@ -3,7 +3,7 @@ from translator import process_text
 
 # Page Configuration
 st.set_page_config(
-    page_title="AI Translation Agent",
+    page_title="AI Translation Agent v1.0.2",
     page_icon="🌐",
     layout="centered",
     initial_sidebar_state="expanded"
@@ -32,6 +32,7 @@ st.markdown("""
 # Sidebar for Settings
 with st.sidebar:
     st.header("Configurações")
+    st.caption("Versão: v1.0.2 (Debug Mode)")
     
     target_language = st.selectbox(
         "Idioma de Destino",
